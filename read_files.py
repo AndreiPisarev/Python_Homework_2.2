@@ -42,31 +42,28 @@ def read_file(name_file, encoding_file):
 
 def top_10_popular(list_char_more_6):
     list_word = list()
-    list_word_unique = list()
 
-    list_word = [[list_char_more_6.count(i), i] for i in list_char_more_6]  # Список из числа повтор. и слова
-    # list_word_unique = [i for i in list_word if i not in list_word_unique]  # Такая конструкция не работает, не понял.
+    freq = {}
+    for word in list_char_more_6:
+        if word not in freq:
+            freq[word] = 1
+        else:
+            freq[word] += 1
 
-    for i in list_word:
-        if i not in list_word_unique:
-            list_word_unique.append(i)  # Убираем повторяющие элементы из списка
+    sorted_count_pair = sorted(freq.items(), key=lambda x: x[1], reverse=True)
+    sorted_count_pair = sorted_count_pair[:10]  # С помощью среза выбираем ТОП 10
 
-    list_word_unique.sort(reverse=True)  # Сортрируем, первыми занч. будут с наиб. числом повторений [повторн:слово]
-    list_word_top_10 = list_word_unique[:10]  # С помощью среза выбираем ТОП 10
-
-    list_word = list()
-    for i in list_word_top_10:
-        for i_i in i:
-            if i[1] not in list_word:
-                list_word.append(i[1])
+    for word, count in sorted_count_pair:
+        if word not in list_word:
+            list_word.append(word)
 
     return list_word
 
 
-def print_word(word, name_file):
+def print_word(list_word, name_file):
     print('Топ 10 самых часто встречающихся в новостях {} слов длиннее 6 символов:'.format(name_file))
-    for i in word:
-        print(i)
+    for word in list_word:
+        print(word)
 
 
 def main():
